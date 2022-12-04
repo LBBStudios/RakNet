@@ -53,9 +53,19 @@ void WSAStartupSingleton::AddRef(void)
 			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 			( LPTSTR ) & messageBuffer, 0, NULL );
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "WSAStartup failed:Error code - %d\n%s", dwIOError, messageBuffer );
-		//Free the buffer.
+		//RAKNET_DEBUG_PRINTF( "WSAStartup failed:Error code - %d\n%s", dwIOError, messageBuffer );
+
+
+		//convert messageBuffer to a c string
+		char* message = new char[ strlen( ( char* ) messageBuffer ) + 1 ];
+		strcpy( message, ( char* ) messageBuffer );
+
+		//Free the previous buffer
 		LocalFree( messageBuffer );
+		
+		RAKNET_DEBUG_PRINTF("WSAStartup failed:Error code - %d\n%s", dwIOError, message);
+
+		delete[] message; //delete the c string
 #endif
 	}
 
