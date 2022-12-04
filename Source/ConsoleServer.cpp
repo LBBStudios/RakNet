@@ -181,15 +181,15 @@ void ConsoleServer::Update(void)
 				if (commandParsed==false)
 				{
 					// Try again, for all commands for all parsers.
-					RakNet::RegisteredCommand rc;
+					RakNet::RegisteredCommand rComm;
 					for (i=0; i < commandParserList.Size(); i++)
 					{
-						if (commandParserList[i]->GetRegisteredCommand(parameterList[1], &rc))
+						if (commandParserList[i]->GetRegisteredCommand(parameterList[1], &rComm))
 						{
-							if (rc.parameterCount==RakNet::CommandParserInterface::VARIABLE_NUMBER_OF_PARAMETERS)
-								transport->Send(p->systemAddress, "(Variable parms): %s %s\r\n", rc.command, rc.commandHelp);
+							if (rComm.parameterCount==RakNet::CommandParserInterface::VARIABLE_NUMBER_OF_PARAMETERS)
+								transport->Send(p->systemAddress, "(Variable parms): %s %s\r\n", rComm.command, rComm.commandHelp);
 							else
-								transport->Send(p->systemAddress, "(%i parms): %s %s\r\n", rc.parameterCount, rc.command, rc.commandHelp);
+								transport->Send(p->systemAddress, "(%i parms): %s %s\r\n", rComm.parameterCount, rComm.command, rComm.commandHelp);
 							commandParsed=true;
 							break;
 						}

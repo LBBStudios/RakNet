@@ -78,7 +78,28 @@ void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTER
     (void) err;
 	RakAssert(err != -1);
 	
-	struct hostent *phe = gethostbyname( ac );
+	//struct hostent *phe =  getaddrinfo(ac);  //gethostbyname( ac );
+
+	//get our hostname, using getaddrinfo
+	struct addrinfo hints;
+	struct addrinfo *servinfo=0, *aip;  // will point to the results
+	getaddrinfo(ac, "", &hints, &servinfo);
+
+	struct hostent* phe = 0;
+	for (aip = servinfo; aip != NULL; aip = aip->ai_next)
+	{
+		if (aip->ai_family == AF_INET)
+		{
+			phe = gethostbyaddr((char*)&((struct sockaddr_in *)aip->ai_addr)->sin_addr.s_addr, sizeof(struct in_addr), AF_INET);
+			break;
+		}
+	}
+
+	/*if (phe==0)
+	{
+		// Try again, but use gethostbyname
+		phe = gethostbyname( ac );
+	}*/
 
 	if ( phe == 0 )
 	{

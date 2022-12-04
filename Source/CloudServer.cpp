@@ -625,8 +625,7 @@ void CloudServer::OnGetRequest(Packet *packet)
 			keySubscriberId = RakNet::OP_NEW<KeySubscriberID>(_FILE_AND_LINE_);
 			keySubscriberId->key=cloudKey;
 
-			unsigned int specificSystemIndex;
-			for (specificSystemIndex=0; specificSystemIndex < getRequest->cloudQueryWithAddresses.specificSystems.Size(); specificSystemIndex++)
+			for (unsigned int specificSystemIndex=0; specificSystemIndex < getRequest->cloudQueryWithAddresses.specificSystems.Size(); specificSystemIndex++)
 			{
 				keySubscriberId->specificSystemsSubscribedTo.Insert(getRequest->cloudQueryWithAddresses.specificSystems[specificSystemIndex], getRequest->cloudQueryWithAddresses.specificSystems[specificSystemIndex], true, _FILE_AND_LINE_);
 			}
@@ -648,8 +647,7 @@ void CloudServer::OnGetRequest(Packet *packet)
 				CloudData *cloudData;
 				bool keyDataListExists;
 
-				unsigned int specificSystemIndex;
-				for (specificSystemIndex=0; specificSystemIndex < getRequest->cloudQueryWithAddresses.specificSystems.Size(); specificSystemIndex++)
+				for (unsigned int specificSystemIndex=0; specificSystemIndex < getRequest->cloudQueryWithAddresses.specificSystems.Size(); specificSystemIndex++)
 				{
 					RakNetGUID specificSystem = getRequest->cloudQueryWithAddresses.specificSystems[specificSystemIndex];
 
@@ -687,7 +685,7 @@ void CloudServer::OnGetRequest(Packet *packet)
 				subscribedKeysIndex = remoteCloudClient->subscribedKeys.GetIndexFromKey(cloudDataList->key, &subscribedKeysIndexExists);
 				if (subscribedKeysIndexExists)
 				{
-					KeySubscriberID* keySubscriberId;
+					keySubscriberId = nullptr;
 					keySubscriberId = remoteCloudClient->subscribedKeys[subscribedKeysIndex];
 					unsigned int specificSystemIndex;
 					for (specificSystemIndex=0; specificSystemIndex < keySubscriberId->specificSystemsSubscribedTo.Size(); specificSystemIndex++)
@@ -760,22 +758,22 @@ void CloudServer::OnUnsubscribeRequest(Packet *packet)
 
 	for (index=0; index < keyCount; index++)
 	{
-		CloudKey cloudKey = cloudKeys[index];
+		CloudKey cKey = cloudKeys[index];
 
 	//	dataRepositoryIndex = 
-			dataRepository.GetIndexFromKey(cloudKey, &dataRepositoryExists);
+			dataRepository.GetIndexFromKey(cKey, &dataRepositoryExists);
 		if (dataRepositoryExists==false)
 			continue;
 //		cloudDataList = dataRepository[dataRepositoryIndex];
 
 		unsigned int keySubscriberIndex;
 		bool hasKeySubscriber;
-		keySubscriberIndex = remoteCloudClient->subscribedKeys.GetIndexFromKey(cloudKey, &hasKeySubscriber);
+		keySubscriberIndex = remoteCloudClient->subscribedKeys.GetIndexFromKey(cKey, &hasKeySubscriber);
 
 		if (hasKeySubscriber==false)
 			continue;
 
-		UnsubscribeFromKey(remoteCloudClient, packet->guid, keySubscriberIndex, cloudKey, specificSystems);
+		UnsubscribeFromKey(remoteCloudClient, packet->guid, keySubscriberIndex, cKey, specificSystems);
 	}
 
 	if (remoteCloudClient->IsUnused())
