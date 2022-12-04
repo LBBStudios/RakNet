@@ -68,8 +68,8 @@ public:
 	/// \param[out] contentOffset The offset from the start of responseReceived to the data body. Equivalent to searching for \r\n\r\n in responseReceived.
 	/// \param[out] userData Whatever you passed to TransmitRequest
 	/// \return true if there was a response. false if not.
-	bool GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, int &contentOffset, void **userData );
-	bool GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, int &contentOffset );
+	bool GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, size_t &contentOffset, void **userData );
+	bool GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, size_t&contentOffset );
 
 	/// \brief Return if any requests are pending
 	bool IsBusy(void) const;
@@ -86,8 +86,8 @@ public:
 		SystemAddress hostCompletedAddress;
 		unsigned short port;
 		bool useSSL;
-		int contentOffset;
-		int contentLength;
+		size_t contentOffset;
+		size_t contentLength;
 		int ipVersion;
 		void *userData;
 		bool chunked;

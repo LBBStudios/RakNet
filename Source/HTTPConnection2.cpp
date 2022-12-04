@@ -98,13 +98,13 @@ bool HTTPConnection2::TransmitRequest(const char* stringToTransmit, const char* 
 	}
 	return true;
 }
-bool HTTPConnection2::GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, int &contentOffset )
+bool HTTPConnection2::GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, size_t&contentOffset )
 {
 	void *userData;
 	return GetResponse(stringTransmitted, hostTransmitted, responseReceived, hostReceived, contentOffset, &userData);
 
 }
-bool HTTPConnection2::GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, int &contentOffset, void **userData )
+bool HTTPConnection2::GetResponse( RakString &stringTransmitted, RakString &hostTransmitted, RakString &responseReceived, SystemAddress &hostReceived, size_t &contentOffset, void **userData )
 {
 	completedRequestsMutex.Lock();
 	if (completedRequests.Size()>0)
@@ -374,11 +374,12 @@ PluginReceiveResult HTTPConnection2::OnReceive(Packet *packet)
 					const char *firstNewlineSet = strstr(sentRequest->stringReceived.C_String(), "\r\n\r\n");
 					if (firstNewlineSet!=0)
 					{
-						int offset = firstNewlineSet - sentRequest->stringReceived.C_String();
+						size_t offset = firstNewlineSet - sentRequest->stringReceived.C_String();
 						if (sentRequest->stringReceived.C_String()[offset+4]==0)
 							sentRequest->contentOffset=-1;
 						else
 							sentRequest->contentOffset=offset+4;
+
 						completedRequestsMutex.Lock();
 						completedRequests.Push(sentRequest, _FILE_AND_LINE_);
 						completedRequestsMutex.Unlock();
