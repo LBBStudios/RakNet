@@ -184,7 +184,7 @@ public:
 	static int ReadIntFromSubstring(const char *str, size_t pos, size_t n);
 
 	// Like strncat, but for a fixed length
-	void AppendBytes(const char *bytes, unsigned int count);
+	void AppendBytes(const char *bytes, size_t count);
 
 	/// Compare strings (case sensitive)
 	int StrCmp(const RakString &rhs) const;

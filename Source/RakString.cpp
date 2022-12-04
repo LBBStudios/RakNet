@@ -468,7 +468,7 @@ WCHAR * RakString::ToWideChar(void)
 		CP_UTF8,                // convert from UTF-8
 		0,						// Flags
 		sharedString->c_str,            // source UTF-8 string
-		GetLength()+1,                 // total length of source UTF-8 string,
+		(int)GetLength()+1,                 // total length of source UTF-8 string,
 		// in CHAR's (= bytes), including end-of-string \0
 		NULL,                   // unused - no conversion done in this step
 		0                       // request size of destination buffer, in WCHAR's
@@ -492,7 +492,7 @@ WCHAR * RakString::ToWideChar(void)
 		CP_UTF8,                // convert from UTF-8
 		0,						// Buffer
 		sharedString->c_str,            // source UTF-8 string
-		GetLength()+1,                 // total length of source UTF-8 string,
+		(int)GetLength()+1,                 // total length of source UTF-8 string,
 		// in CHAR's (= bytes), including end-of-string \0
 		pszUTF16,               // destination buffer
 		cchUTF16                // size of destination buffer, in WCHAR's
@@ -1469,7 +1469,7 @@ int RakString::ReadIntFromSubstring(const char *str, size_t pos, size_t n)
 		tmp[i]=str[i+pos];
 	return atoi(tmp);
 }
-void RakString::AppendBytes(const char *bytes, unsigned int count)
+void RakString::AppendBytes(const char *bytes, size_t count)
 {
 	if (IsEmpty())
 	{
