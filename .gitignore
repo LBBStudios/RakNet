@@ -29,3 +29,8 @@ Debug/
 Release/
 .DS_Store
 .Trashes
+.vs/
+
+*.pdb
+
+*.idb
