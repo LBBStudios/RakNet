@@ -60,7 +60,7 @@ using namespace RakNet;
 
 STATIC_FACTORY_DEFINITIONS(BitStream,BitStream)
 
-BitStream::BitStream()
+BitStream::BitStream() : stackData{}
 {
 	numberOfBitsUsed = 0;
 	//numberOfBitsAllocated = 32 * 8;
@@ -76,8 +76,9 @@ BitStream::BitStream()
 	copyData = true;
 }
 
-BitStream::BitStream( const unsigned int initialBytesToAllocate )
+BitStream::BitStream(const unsigned int initialBytesToAllocate)
 {
+	stackData{};
 	numberOfBitsUsed = 0;
 	readOffset = 0;
 	if (initialBytesToAllocate <= BITSTREAM_STACK_ALLOCATION_SIZE)
@@ -97,7 +98,8 @@ BitStream::BitStream( const unsigned int initialBytesToAllocate )
 	copyData = true;
 }
 
-BitStream::BitStream( unsigned char* _data, const unsigned int lengthInBytes, bool _copyData )
+BitStream::BitStream( unsigned char* _data, const unsigned int lengthInBytes, bool _copyData ) :
+	stackData{}
 {
 	numberOfBitsUsed = lengthInBytes << 3;
 	readOffset = 0;
