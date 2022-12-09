@@ -46,9 +46,9 @@ void DomainNameToIP_Berkley_IPV4And6( const char *domainName, char ip[65] )
 		// different fields in IPv4 and IPv6:
 		if (p->ai_family == AF_INET)
 		{
-			struct sockaddr_in *ipv4 = (struct sockaddr_in *)p->ai_addr;
+			struct sockaddr_in* ipv4 = (struct sockaddr_in*)p->ai_addr;
 			addr = &(ipv4->sin_addr);
-			strcpy(ip, inet_ntoa( ipv4->sin_addr ));
+			inet_ntop(AF_INET, &ipv4->sin_addr, ip, 65);
 		} 
 		else
 		{
@@ -70,6 +70,8 @@ void DomainNameToIP_Berkley_IPV4And6( const char *domainName, char ip[65] )
 
 void DomainNameToIP_Berkley_IPV4( const char *domainName, char ip[65] )
 {
+#pragma warning(push)
+#pragma warning(disable:4996)
 	static struct in_addr addr;
 	memset(&addr,0,sizeof(in_addr));
 	
@@ -91,6 +93,7 @@ void DomainNameToIP_Berkley_IPV4( const char *domainName, char ip[65] )
 
 	memcpy( &addr, phe->h_addr_list[ 0 ], sizeof( struct in_addr ) );
 	strcpy(ip, inet_ntoa( addr ));
+#pragma warning(pop)
 }
 
 

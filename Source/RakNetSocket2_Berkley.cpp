@@ -91,13 +91,8 @@ void RNS2_Berkley::GetSystemAddressIPV4 ( RNS2Socket rns2Socket, SystemAddress *
 
 	if (systemAddressOut->address.addr4.sin_addr.s_addr == INADDR_ANY)
 	{
-
-
-
-
-
-			systemAddressOut->address.addr4.sin_addr.s_addr=inet_addr__("127.0.0.1");
-
+		//systemAddressOut->address.addr4.sin_addr.s_addr=inet_addr__("127.0.0.1");
+		inet_pton(AF_INET, "127.0.0.1", &systemAddressOut->address.addr4.sin_addr.s_addr);
 	}
 }
 void RNS2_Berkley::GetSystemAddressIPV4And6 ( RNS2Socket rns2Socket, SystemAddress *systemAddressOut )
@@ -113,11 +108,11 @@ void RNS2_Berkley::GetSystemAddressIPV4And6 ( RNS2Socket rns2Socket, SystemAddre
 #if defined(_WIN32) && defined(_DEBUG)
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
-		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
-			( LPTSTR ) & messageBuffer, 0, NULL );
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, dwIOError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
+			(LPTSTR)&messageBuffer, 0, NULL);
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%s", dwIOError, messageBuffer );
+		RAKNET_DEBUG_PRINTF("recvfrom failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer);
 
 		//Free the buffer.
 		LocalFree( messageBuffer );
@@ -188,10 +183,10 @@ RNS2BindResult RNS2_Berkley::BindSharedIPV4( RNS2_BerkleyBindParameters *bindPar
 
 
 
-
-
+#pragma warning(push)
+#pragma warning(disable:4996)
 		boundAddress.address.addr4.sin_addr.s_addr = inet_addr__( bindParameters->hostAddress );
-
+#pragma warning(pop)
 	}
 	else
 	{
@@ -296,7 +291,10 @@ RNS2BindResult RNS2_Berkley::BindSharedIPV4And6( RNS2_BerkleyBindParameters *bin
 	{
 		// Open socket. The address type depends on what
 		// getaddrinfo() gave us.
+#pragma warning(push)
+#pragma warning(disable:4244)
 		rns2Socket = socket__(aip->ai_family, aip->ai_socktype, aip->ai_protocol);
+#pragma warning(pop)
 
 		if (rns2Socket == -1)
 			return BR_FAILED_TO_BIND_SOCKET;
@@ -388,14 +386,14 @@ void RNS2_Berkley::RecvFromBlockingIPV4And6(RNS2RecvStruct *recvFromStruct)
 	if (recvFromStruct->bytesRead==-1)
 	{
 		DWORD dwIOError = GetLastError();
-		if (dwIoError != 10035)
+		if (dwIOError != 10035)
 		{
 			LPVOID messageBuffer;
 			FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 				NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 				( LPTSTR ) & messageBuffer, 0, NULL );
 			// I see this hit on XP with IPV6 for some reason
-			RAKNET_DEBUG_PRINTF( "Warning: recvfrom failed:Error code - %d\n%s", dwIOError, messageBuffer );
+			RAKNET_DEBUG_PRINTF( "Warning: recvfrom failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
 			LocalFree( messageBuffer );
 		}
 	}	
