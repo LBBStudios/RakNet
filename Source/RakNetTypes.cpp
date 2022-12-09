@@ -271,25 +271,8 @@ void SystemAddress::ToString_Old(bool writePort, char *dest, char portDelineator
 	portStr[0]=portDelineator;
 	portStr[1]=0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#pragma warning(push)
+#pragma warning(disable:4996) //Considering this is old code, mostly relating to ipv4, it will not be changed.
 	in_addr in;
 	in.s_addr = address.addr4.sin_addr.s_addr;
 	const char *ntoaStr = inet_ntoa( in );
@@ -299,7 +282,7 @@ void SystemAddress::ToString_Old(bool writePort, char *dest, char portDelineator
 		strcat(dest, portStr);
 		Itoa(GetPort(), dest+strlen(dest), 10);
 	}
-
+#pragma warning(pop)
 }
 const char *SystemAddress::ToString(bool writePort, char portDelineator) const
 {

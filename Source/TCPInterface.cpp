@@ -853,7 +853,7 @@ __TCPSOCKET__ TCPInterface::SocketConnect(const char* host, unsigned short remot
 
 
 	struct addrinfo hints, *res;
-	int sockfd;
+	UINT_PTR sockfd;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = socketFamily;
 	hints.ai_socktype = SOCK_STREAM;
@@ -864,7 +864,7 @@ __TCPSOCKET__ TCPInterface::SocketConnect(const char* host, unsigned short remot
 	blockingSocketListMutex.Lock();
 	blockingSocketList.Insert(sockfd, _FILE_AND_LINE_);
 	blockingSocketListMutex.Unlock();
-	connectResult=connect__(sockfd, res->ai_addr, res->ai_addrlen);
+	connectResult=connect__(sockfd, res->ai_addr, (int)res->ai_addrlen);
 	freeaddrinfo(res); // free the linked-list
 
 #endif // #if RAKNET_SUPPORT_IPV6!=1
