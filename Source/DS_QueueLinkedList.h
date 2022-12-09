@@ -98,6 +98,7 @@ namespace DataStructures
 			return false;
 			
 		data = original_copy.data;
+		return true; //was missing
 	}
 	
 	template <class QueueType>
