@@ -167,7 +167,7 @@ void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSoc
 				NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 				( LPTSTR ) & messageBuffer, 0, NULL );
 			// something has gone wrong here...
-			RAKNET_DEBUG_PRINTF( "setsockopt__(SO_BROADCAST) failed:Error code - %d\n%s", dwIOError, messageBuffer );
+			RAKNET_DEBUG_PRINTF( "setsockopt__(SO_BROADCAST) failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
 			//Free the buffer.
 			LocalFree( messageBuffer );
 #endif
@@ -207,12 +207,16 @@ RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, Rak
 	{
 		sockaddr_in *pAddress;
 		pAddress = (sockaddr_in *) & (InterfaceList[i].iiAddress);
-		ipString=inet_ntoa(pAddress->sin_addr);
+		char ip[65];
+		inet_ntop(pAddress->sin_family, &pAddress->sin_addr, ip, 65);
+		ipString = ip;
 
 		if (inIpString==ipString)
 		{
-			pAddress = (sockaddr_in *) & (InterfaceList[i].iiNetmask);
-			netMaskString=inet_ntoa(pAddress->sin_addr);
+			pAddress = (sockaddr_in*)&(InterfaceList[i].iiNetmask);
+			char netmaskIP[65];
+			inet_ntop(pAddress->sin_family, &pAddress->sin_addr, netmaskIP, 65);
+			netMaskString = netmaskIP;
 			return netMaskString;
 		}
 	}
@@ -368,7 +372,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 			( LPTSTR ) & messageBuffer, 0, NULL );
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "gethostname failed:Error code - %d\n%s", dwIOError, messageBuffer );
+		RAKNET_DEBUG_PRINTF( "gethostname failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
 		//Free the buffer.
 		LocalFree( messageBuffer );
 		#endif
@@ -487,7 +491,7 @@ void SocketLayer::GetSystemAddress_Old ( __UDPSOCKET__ s, SystemAddress *systemA
 			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 			( LPTSTR ) & messageBuffer, 0, NULL );
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%s", dwIOError, messageBuffer );
+		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
 
 		//Free the buffer.
 		LocalFree( messageBuffer );
@@ -524,7 +528,7 @@ void SocketLayer::GetSystemAddress ( __UDPSOCKET__ s, SystemAddress *systemAddre
 			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
 			( LPTSTR ) & messageBuffer, 0, NULL );
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%s", dwIOError, messageBuffer );
+		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
 
 		//Free the buffer.
 		LocalFree( messageBuffer );

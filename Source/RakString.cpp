@@ -516,7 +516,7 @@ void RakString::DeallocWideChar(WCHAR * w)
 void RakString::FromWideChar(const wchar_t *source)
 {
 	Clear();
-	int bufSize = wcslen(source)*4;
+	size_t bufSize = wcslen(source)*4;
 	Allocate(bufSize);
 	WideCharToMultiByte ( CP_ACP,                // ANSI code page
 
@@ -527,7 +527,7 @@ void RakString::FromWideChar(const wchar_t *source)
                           source,         // Source Unicode string
                           -1,                    // -1 means string is zero-terminated
                           sharedString->c_str,          // Destination char string
-                          bufSize,  // Size of buffer
+                          (int)bufSize,  // Size of buffer
                           NULL,                  // No default character
                           NULL );                // Don't care about this flag
 
@@ -657,7 +657,7 @@ void RakString::TerminateAtLastCharacter(char c)
 }
 void RakString::StartAfterLastCharacter(char c)
 {
-	int i, len=(int) GetLength();
+	unsigned int i, len=(unsigned int) GetLength();
 	for (i=len-1; i >= 0; i--)
 	{
 		if (sharedString->c_str[i]==c)
@@ -665,7 +665,7 @@ void RakString::StartAfterLastCharacter(char c)
 			++i;
 			if (i < len)
 			{
-				*this = SubStr(i,GetLength()-i);
+				*this = SubStr(i,(unsigned int)GetLength()-i);
 			}
 			return;
 		}
@@ -696,7 +696,7 @@ void RakString::StartAfterFirstCharacter(char c)
 			++i;
 			if (i < len)
 			{
-				*this = SubStr(i,GetLength()-i);
+				*this = SubStr(i,(unsigned int)GetLength()-i);
 			}
 			return;
 		}

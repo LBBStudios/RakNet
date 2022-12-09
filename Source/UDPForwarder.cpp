@@ -227,12 +227,13 @@ void UDPForwarder::RecvFrom(RakNet::TimeMS curTime, ForwardEntry *forwardEntry)
 
 		if (dwIOError!=WSAECONNRESET && dwIOError!=WSAEINTR && dwIOError!=WSAETIMEDOUT && dwIOError!=WSAEWOULDBLOCK)
 		{
+			//Updated for wide character support / avoiding warning
 			LPVOID messageBuffer;
-			FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
-				( LPTSTR ) & messageBuffer, 0, NULL );
+			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL, dwIOError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
+				(LPTSTR)&messageBuffer, 0, NULL);
 			// something has gone wrong here...
-			RAKNET_DEBUG_PRINTF( "recvfrom failed:Error code - %d\n%s", dwIOError, messageBuffer );
+			RAKNET_DEBUG_PRINTF("recvfrom failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer);
 
 			//Free the buffer.
 			LocalFree( messageBuffer );
