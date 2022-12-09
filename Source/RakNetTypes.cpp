@@ -531,7 +531,9 @@ bool SystemAddress::SetBinaryAddress(const char *str, char portDelineator)
 		// Only write the valid parts, don't change existing if invalid
 		//	binaryAddress=UNASSIGNED_SYSTEM_ADDRESS.binaryAddress;
 		//	port=UNASSIGNED_SYSTEM_ADDRESS.port;
-		for (index=0; str[index] && str[index]!=portDelineator && index<22; index++)
+
+		//edited to be 21 instead of 22, because the IPPart array only has 22 indices, not 23.
+		for (index=0; str[index] && str[index]!=portDelineator && index< 21; index++)
 		{
 			if (str[index]!='.' && (str[index]<'0' || str[index]>'9'))
 				break;
@@ -553,28 +555,12 @@ bool SystemAddress::SetBinaryAddress(const char *str, char portDelineator)
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-
 		if (IPPart[0])
 		{
-
-
-
-
 
 			address.addr4.sin_addr.s_addr=inet_addr__(IPPart);
 
 		}
-
 
 		if (portPart[0])
 		{

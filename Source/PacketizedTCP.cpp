@@ -91,9 +91,11 @@ bool PacketizedTCP::SendList( const char **data, const unsigned int *lengths, co
 	const char *dataArray[512];
 	dataArray[0]=(char*) &dataLength;
 	lengthsArray[0]=sizeof(dataLength);
-	for (int i=0; i < 512 && i < numParameters; i++)
+	for (int i=0; i < 512 - 1 && i < numParameters; i++)
 	{
-		dataArray[i+1]=data[i];
+		//i+1 here made these arrays get accessed outside of the 512 bounds, which would cause a crash.
+		//it likely got hidden by the "i < numParameters" check, but it should be fixed now.
+		dataArray[i+1]=data[i]; 
 		lengthsArray[i+1]=lengths[i];
 	}	
 	return TCPInterface::SendList(dataArray,lengthsArray,numParameters+1,systemAddress,broadcast);
