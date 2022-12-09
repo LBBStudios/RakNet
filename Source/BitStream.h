@@ -1346,7 +1346,10 @@ namespace RakNet
 			varCopy=-1.0f;
 		if (varCopy > 1.0f)
 			varCopy=1.0f;
-		Write((uint32_t)((varCopy+1.0)*2147483648.0)); //float to int underflow conversion, is this intentional? I don't get it.
+
+		//As it turns out, this is intentional to try and save as many bits as possible.
+		//A bit _extreme_, if you ask me.
+		Write((uint32_t)((varCopy+1.0)*2147483648.0)); //float to int underflow conversion, apparently intentional.
 	}
 
 	/// Compress the string

@@ -33,6 +33,17 @@ using namespace RakNet;
 
 CCRakNetSlidingWindow::CCRakNetSlidingWindow()
 {
+	//copied from Init function, must always init members Rakkar!
+	lastRtt = estimatedRTT = deviationRtt = UNSET_TIME_US;
+	MAXIMUM_MTU_INCLUDING_UDP_HEADER = 0;
+	cwnd = 0;
+	ssThresh = 0.0;
+	oldestUnsentAck = 0;
+	nextDatagramSequenceNumber = 0;
+	nextCongestionControlBlock = 0;
+	backoffThisBlock = speedUpThisBlock = false;
+	expectedNextSequenceNumber = 0;
+	_isContinuousSend = false;
 }
 // ----------------------------------------------------------------------------------------------------------------------------
 CCRakNetSlidingWindow::~CCRakNetSlidingWindow()
