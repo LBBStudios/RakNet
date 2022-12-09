@@ -34,3 +34,4 @@ Release/
 *.pdb
 
 *.idb
+*.lib
