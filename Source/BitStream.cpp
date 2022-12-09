@@ -78,7 +78,6 @@ BitStream::BitStream() : stackData{}
 
 BitStream::BitStream(const unsigned int initialBytesToAllocate)
 {
-	stackData{};
 	numberOfBitsUsed = 0;
 	readOffset = 0;
 	if (initialBytesToAllocate <= BITSTREAM_STACK_ALLOCATION_SIZE)
