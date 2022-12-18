@@ -526,9 +526,9 @@ void SocketLayer::GetSystemAddress ( __UDPSOCKET__ s, SystemAddress *systemAddre
 		LPVOID messageBuffer;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, dwIOError, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),  // Default language
-			( LPTSTR ) & messageBuffer, 0, NULL );
+			(LPSTR) & messageBuffer, 0, NULL );
 		// something has gone wrong here...
-		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer );
+		RAKNET_DEBUG_PRINTF( "getsockname failed:Error code - %d\n%ls", dwIOError, (LPCWSTR)messageBuffer );
 
 		//Free the buffer.
 		LocalFree( messageBuffer );
