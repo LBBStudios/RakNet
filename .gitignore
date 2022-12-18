@@ -37,3 +37,4 @@ Release/
 *.lib
 *.dll
 *.exp
+CMakeFiles/
