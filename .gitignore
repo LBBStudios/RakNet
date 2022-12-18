@@ -38,3 +38,9 @@ Release/
 *.dll
 *.exp
 CMakeFiles/
+
+#VS stuff
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
