@@ -20,7 +20,7 @@
 #include "DS_OrderedList.h"
 #include "LinuxStrings.h"
 #include "SocketDefines.h"
-#include "VitaIncludes.h"
+//#include "VitaIncludes.h"
 #include "errno.h"
 
 #ifndef INVALID_SOCKET
@@ -233,7 +233,7 @@ void UDPForwarder::RecvFrom(RakNet::TimeMS curTime, ForwardEntry *forwardEntry)
 				NULL, dwIOError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
 				(LPTSTR)&messageBuffer, 0, NULL);
 			// something has gone wrong here...
-			RAKNET_DEBUG_PRINTF("recvfrom failed:Error code - %d\n%ls", dwIOError, (LPTSTR)messageBuffer);
+			RAKNET_DEBUG_PRINTF("recvfrom failed:Error code - %d\n%ls", dwIOError, (LPCWSTR)messageBuffer);
 
 			//Free the buffer.
 			LocalFree( messageBuffer );
