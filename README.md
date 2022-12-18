@@ -5,38 +5,42 @@ Copyright (c) 2014, Oculus VR, Inc.
 Copyright (c) 2022, Gie 'Max' Vanommeslaeghe
 
 ## Important Note ⚠️
-This may be a fork of RakNet, but it doesn't make any promises on compatibility with the RakNet protocol, or other versions of the RakNet engine. 
+This may be a fork of RakNet, but it doesn't make any promises on compatibility with the RakNet protocol, or other versions of the RakNet engine.
+
+## Goals 
+* Implement OpenSSL 3.x to replace outdated encryption methods
+
+## Noteworthy changes
+* Removed deprecated code
+* Fixed cppcheck-reported errors
+* Cleaned up old Visual Studio files
+* Modernized CMakeLists.txt files
+* Removed old samples and general console code. Most of it was empty, or generated warnings. (PS Vita, PS3, PS4, 360, Win8, WinPhone, GFx)
 
 Package notes
 ------------------------------------------
-The Help directory contains index.html, which is full help documentation in HTML format
-The Source directory contain all files required for the core of Raknet and is used if you want to use the source in your program or create your own dll
-The Samples directory contains code samples and one game using an older version of Raknet.  The code samples each demonstrate one feature of Raknet.  The game samples cover several features.
-The lib directory contains libs for debug and release versions of RakNet and RakVoice
-There is a make file for linux users in the root directory.  Windows users can use projects under Samples\Project Samples
+* The Help directory contains index.html, which is full help documentation in HTML format
+* The Source directory contain all files required for the core of Raknet and is used if you want to use the source in your program or create your own dll
+* The Samples directory contains code samples and one game using an older version of Raknet.  The code samples each demonstrate one feature of Raknet.  The game samples cover several features.
+* The lib directory contains libs for debug and release versions of RakNet and RakVoice
 
-C# support
-------------------------------------------
+## CMake 
+CMake is a requirement for building this library; You can download it at https://cmake.org/download/
 
-See Help\swigtutorial.html
-
-Upgrading from version 3
-------------------------------------------
-
-See 3.x_to_4.x_upgrade.txt
-
-Windows users (Visual Studio 2022)
+Windows builds
 -----------------------------------------
-Load RakNet_VS2022.sln and convert if necessary.
+* Generate RakNet.sln using CMake
+* Open 
+* Build required .dll or .lib files
 
-CYGWIN users
+CYGWIN builds
 -----------------------------------------
 Copy Include, Source, and whatever you want to run in the home directory.  Then type
 `g++ ../../lib/w32api/libws2_32.a *.cpp`
 You can run `a.exe`.
 You might have to copy `*.dll` from `cygwin\bin` as well.
 
-Linux users
+Linux builds
 -----------------------------------------
 Use `cmake`, or `g++ -lpthread -g *.cpp` in the /Source directory.
 With libcat, use `g++ -pthread -g -I./../DependentExtensions *.cpp` in the /Source directory.
@@ -174,7 +178,7 @@ which should list the two .a files. Now, we make them into a universal binary:
 
 You now have a file named libraknet.a. This is the RakNet library, built to run on both PowerPC and Intel Macs. Enjoy! ;-)
 
-IPod
+Apple Devices (iPhone, iPod)
 -----------------------------------------
 Depending on what version you target, you may have to change two defines to not use 64 bit integers and floats or doubles.
 
@@ -219,42 +223,3 @@ From within the CYWGIN enviroment, navigate to home/Kevin/android-ndk-r4b/sample
 Everything should build and you should end up with a .so file.
 
 You should then be able to create a project in eclipse, and import cygwin/home/Kevin/android-ndk-r4b/samples/RakNet
-
-Native client
------------------------------------------
-Solution: RakNet_NativeClient_VS2010. See Samples\nacl_sdk\RakNet_NativeClient_VS2010\HowToSetup.txt for detailed instructions on setup.
-
-Windows Phone 8
------------------------------------------
-Example solution: RakNet_WinPhone8_VS2012.
-Add to your project DependentExtensions\WinPhone8\ThreadEmulation.cpp
-Add DependentExtensions\WinPhone8\ to your include paths
-Define _CRT_SECURE_NO_WARNINGS and WINDOWS_PHONE_8
-
-Windows Store 8
------------------------------------------
-Example solution: RakNet_WindowsStore8_VS2012.sln
-Add to your project DependentExtensions\WinPhone8\ThreadEmulation.cpp
-Add DependentExtensions\WinPhone8\ and DependentExtensions\WinRT to your include paths
-TCP is not supported, only UDP (RakPeer).
-IPV4 only (not hard to also add IPV6 upon request).
-Define:
-_CRT_SECURE_NO_WARNINGS
-WINDOWS_STORE_RT
-_RAKNET_SUPPORT_TCPInterface=0
-_RAKNET_SUPPORT_PacketizedTCP=0
-_RAKNET_SUPPORT_EmailSender=0
-_RAKNET_SUPPORT_HTTPConnection=0
-_RAKNET_SUPPORT_HTTPConnection2=0
-_RAKNET_SUPPORT_TelnetTransport=0
-_RAKNET_SUPPORT_NatTypeDetectionServer=0
-_RAKNET_SUPPORT_UDPProxyServer=0
-_RAKNET_SUPPORT_UDPProxyCoordinator=0
-_RAKNET_SUPPORT_UDPForwarder=0
-
-
-Unreal engine
------------------------------------------
-See https://udn.epicgames.com/lists/showpost.php?list=unprog3&id=37697&lessthan=&show=20
-
-
