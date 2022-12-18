@@ -95,11 +95,11 @@ void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTER
 		}
 	}
 
-	/*if (phe==0)
+	if (phe==0)
 	{
 		// Try again, but use gethostbyname
 		phe = gethostbyname( ac );
-	}*/
+	}
 
 	if ( phe == 0 )
 	{
