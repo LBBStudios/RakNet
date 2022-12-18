@@ -2,6 +2,10 @@ RakNet 4.081
 ============
 
 Copyright (c) 2014, Oculus VR, Inc.
+Copyright (c) 2022, Gie 'Max' Vanommeslaeghe
+
+## Important Note ⚠️
+This may be a fork of RakNet, but it doesn't make any promises on compatibility with the RakNet protocol, or other versions of the RakNet engine. 
 
 Package notes
 ------------------------------------------
