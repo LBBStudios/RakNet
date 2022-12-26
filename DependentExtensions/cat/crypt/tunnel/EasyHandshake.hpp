@@ -206,7 +206,7 @@ protected:
 	FortunaOutput *tls_csprng;
 
 public:
-	static const int BITS = 512;
+	static const int BITS = 256;
 	static const int BYTES = BITS / 8;
 	static const int PUBLIC_KEY_BYTES = BYTES * 2;
 	static const int PRIVATE_KEY_BYTES = BYTES;
