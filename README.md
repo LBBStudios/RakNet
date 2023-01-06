@@ -42,6 +42,10 @@ You might have to copy `*.dll` from `cygwin\bin` as well.
 
 Linux builds
 -----------------------------------------
+#### Important Note ⚠️ ####
+This section is under construction. Linux builds do not work at the time of writing. 
+
+
 Use `cmake`, or `g++ -lpthread -g *.cpp` in the /Source directory.
 With libcat, use `g++ -pthread -g -I./../DependentExtensions *.cpp` in the /Source directory.
 
