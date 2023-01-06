@@ -28,6 +28,13 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <pthread.h>
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <netdb.h>
+#include <unistd.h>
 #endif
 #include <string.h>
 #include "RakAssert.h"
