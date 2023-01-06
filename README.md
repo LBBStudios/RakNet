@@ -6,6 +6,8 @@ Copyright (c) 2022, Gie 'Max' Vanommeslaeghe
 
 ## Important Note ⚠️
 This may be a fork of RakNet, but it doesn't make any promises on compatibility with the RakNet protocol, or other versions of the RakNet engine.
+It is also important to remember that this is currently only being tested on Windows, and Linux support is offered as best effort.
+Other platforms may work, but cannot be guaranteed. 
 
 ## Goals 
 * Implement OpenSSL 3.x to replace outdated encryption methods
