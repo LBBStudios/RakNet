@@ -42,110 +42,15 @@ You might have to copy `*.dll` from `cygwin\bin` as well.
 
 Linux builds
 -----------------------------------------
-#### Important Note ⚠️ ####
-This section is under construction. Linux builds do not work at the time of writing. 
-
-
-Use `cmake`, or `g++ -lpthread -g *.cpp` in the /Source directory.
-With libcat, use `g++ -pthread -g -I./../DependentExtensions *.cpp` in the /Source directory.
-
-64 bit use -m64 command line
-Sometimes you need -pthread instead of -lpthread
-
-Command to build 64 bit chat example server from the /Source directory:
-
-    g++ -m64 -g -lpthread -I./ "../Samples/Chat Example/Chat Example Server.cpp" *.cpp
-
-Command to build NATCompleteServer from the Samples/NATCompleteServer directory:
-
-    g++ -g -lpthread -I./ -I./../../Source main.cpp -I./../CloudServer ./../../Source/*.cpp ./../CloudServer/CloudServerHelper.cpp
-
-Command to build autopatcher server from /Source directory:
-
-    g++ -lpthread -lpq -lssl -lbz2 -lssl -lcrypto -L/opt/PostgreSQL/9.0/lib -L../DependentExtensions/bzip2-1.0.6 -I/opt/PostgreSQL/9.0/include -I../DependentExtensions/bzip2-1.0.6 -I./ -I../DependentExtensions/Autopatcher -I../DependentExtensions/Autopatcher/AutopatcherPostgreRepository -I../DependentExtensions/PostgreSQLInterface -g *.cpp ../DependentExtensions/Autopatcher/AutopatcherServer.cpp ../DependentExtensions/Autopatcher/CreatePatch.cpp ../DependentExtensions/Autopatcher/MemoryCompressor.cpp ../DependentExtensions/Autopatcher/AutopatcherPostgreRepository/AutopatcherPostgreRepository.cpp ../DependentExtensions/PostgreSQLInterface/PostgreSQLInterface.cpp ../Samples/AutopatcherServer/AutopatcherServerTest.cpp
-
-Command to build NATCompleteServer from /Source directory:
-
-    g++ -lpthread -I./ -I../Samples/CloudServer ../Samples/CloudServer/CloudServerHelper.cpp ../Samples/NATCompleteServer/main.cpp *.cpp
-
-Command to build BigPacketTest from /Source directory:
-
-    g++ -lpthread -I./ ../Samples/BigPacketTest/BigPacketTest.cpp *.cpp
-
-Or with debugging info on:
-
-    g++ -g -lpthread -I./ ../Samples/BigPacketTest/BigPacketTest.cpp *.cpp
-
-If you get /usr/local/lib/libraknet.so: undefined reference to \`__sync_fetch_and_add_4 then build with `-march=i686`
-
-To debug:
-http://www.unknownroad.com/rtfm/gdbtut/gdbstack.html
-http://cs.baylor.edu/~donahoo/tools/gdb/tutorial.html
-http://linux.bytesex.org/gdb.html
-http://www.delorie.com/gnu/docs/gdb/gdb_29.html
-
-    gdb ./a.out
-
-Set breakpoint:
-
-    b file:line
-
-Disable a breakpoint:
-
-    disable <breakpointNumber>
-
-Delete a breakpoint:
-
-    delete <breakpointNumber>
-
-Get a list of breakpoints:
-
-    info breakpoints
-
-St breakpoint to be ignored that number of times
-
-    ignore <breakpointNumber> <count>
-    run
-
-Other useful commands:
-
-    info stack
-    info locals
-    delete (Clears all breakpoints)
-    step (step into)
-    next (step over)
-    finish (step out)
-    continue to keep going after step or next
-    p <variableName>
-    For example: p users.orderedList.listArray[0].guid
-
-Command to install g++
-
-    sudo apt-get install gcc-c++
-    sudo apt-get install build-essential
-Or:
-
-    yum install gcc-c++
-Or:
-
-    sudo apt-get update
-    sudo apt-get install g++
-
-Command to install gdb
-
-    sudo apt-get install gdb
-
-Command to install wget, used to download files from webpages
-sudo apt-get install wget
-
-Series of commands for a new server:
-    sudo apt-get install wget
-    sudo apt-get update
-    sudo apt-get install --fix-missing g++
-    sudo apt-get install gdb
-    cd RakNet_Install_Directory\Source
-    g++ -m64 -g -pthread -I./ "../Samples/Chat Example/Chat Example Server.cpp" *.cpp
-    ./a.out
+To build on Linux, simply clone the repository, and excute the following commands:
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+Optionally, you can use make -j<processor count -1> to enable multi-threaded compilation. 
+This of course assumes that you have gcc, cmake and build-essentials installed. 
 
 Mac Users
 -----------------------------------------
