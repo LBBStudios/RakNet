@@ -28,6 +28,13 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <pthread.h>
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <netdb.h>
+#include <unistd.h>
 #endif
 #include <string.h>
 #include "RakAssert.h"
@@ -853,7 +860,7 @@ __TCPSOCKET__ TCPInterface::SocketConnect(const char* host, unsigned short remot
 
 
 	struct addrinfo hints, *res;
-	UINT_PTR sockfd;
+	uintptr_t sockfd;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = socketFamily;
 	hints.ai_socktype = SOCK_STREAM;

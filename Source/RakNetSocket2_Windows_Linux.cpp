@@ -19,45 +19,63 @@
 
 #if RAKNET_SUPPORT_IPV6==1
 
-void PrepareAddrInfoHints2(addrinfo *hints)
+#include <algorithm>
+#include <array>
+#include <cstring>
+#include <iostream>
+#include <system_error>
+#include <string>
+
+#ifndef _WIN32
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#endif
+
+void PrepareAddrInfoHints2(addrinfo* hints)
 {
-	memset(hints, 0, sizeof (addrinfo)); // make sure the struct is empty
+	memset(hints, 0, sizeof(addrinfo)); // make sure the struct is empty
 	hints->ai_socktype = SOCK_DGRAM; // UDP sockets
 	hints->ai_flags = AI_PASSIVE;     // fill in my IP for me
 }
 
-void GetMyIP_Windows_Linux_IPV4And6( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
-{
-	int idx=0;
-	char ac[ 80 ];
-	int err = gethostname( ac, sizeof( ac ) );
-	RakAssert(err != -1);
-	
-	struct addrinfo hints;
-	struct addrinfo *servinfo=0, *aip;  // will point to the results
-	PrepareAddrInfoHints2(&hints);
-	getaddrinfo(ac, "", &hints, &servinfo);
-
-	for (idx=0, aip = servinfo; aip != NULL && idx < MAXIMUM_NUMBER_OF_INTERNAL_IDS; aip = aip->ai_next, idx++)
-	{
-		if (aip->ai_family == AF_INET)
-		{
-			struct sockaddr_in *ipv4 = (struct sockaddr_in *)aip->ai_addr;
-			memcpy(&addresses[idx].address.addr4,ipv4,sizeof(sockaddr_in));
-		}
-		else
-		{
-			struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)aip->ai_addr;
-			memcpy(&addresses[idx].address.addr4,ipv6,sizeof(sockaddr_in6));
-		}
-
+void GetMyIP_Windows_Linux_IPV4And6(SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS]) {
+	char hostname[80];
+	if (gethostname(hostname, sizeof(hostname)) == -1) {
+		throw std::system_error(errno, std::system_category(), "gethostname");
 	}
 
-	freeaddrinfo(servinfo); // free the linked-list
-	
+	addrinfo hints;
+	PrepareAddrInfoHints2(&hints);
+
+	addrinfo* servinfo = nullptr;
+	int error = getaddrinfo(hostname, "", &hints, &servinfo);
+	if (error != 0) {
+		throw std::system_error(error, std::system_category(),
+			"getaddrinfo: " + std::string(gai_strerror(error)));
+	}
+
+	int idx = 0;
+	for (addrinfo* aip = servinfo; aip != nullptr && idx < MAXIMUM_NUMBER_OF_INTERNAL_IDS;
+		aip = aip->ai_next, ++idx) {
+		if (aip->ai_family == AF_INET) {
+			sockaddr_in* ipv4 = reinterpret_cast<sockaddr_in*>(aip->ai_addr);
+			std::memcpy(&addresses[idx].address.addr4, ipv4, sizeof(sockaddr_in));
+		}
+		else {
+			sockaddr_in6* ipv6 = reinterpret_cast<sockaddr_in6*>(aip->ai_addr);
+			std::memcpy(&addresses[idx].address.addr6, ipv6, sizeof(sockaddr_in6));
+		}
+	}
+
+	freeaddrinfo(servinfo);
+
+	//std::fill(addresses.begin() + idx, addresses.end(), UNASSIGNED_SYSTEM_ADDRESS);
+
 	while (idx < MAXIMUM_NUMBER_OF_INTERNAL_IDS)
 	{
-		addresses[idx]=UNASSIGNED_SYSTEM_ADDRESS;
+		addresses[idx] = UNASSIGNED_SYSTEM_ADDRESS;
 		idx++;
 	}
 }
