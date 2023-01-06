@@ -20,8 +20,18 @@
 #include "DS_OrderedList.h"
 #include "LinuxStrings.h"
 #include "SocketDefines.h"
-//#include "VitaIncludes.h"
 #include "errno.h"
+
+#ifndef _WIN32
+#include <unistd.h>
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <netdb.h>
+#include <unistd.h>
+#endif
 
 #ifndef INVALID_SOCKET
 #define INVALID_SOCKET -1
