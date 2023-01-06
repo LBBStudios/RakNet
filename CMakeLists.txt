@@ -46,7 +46,7 @@ endif (MSVC)
 
 include_directories(SYSTEM include/raknet DependentExtensions Source)
 
-add_subdirectory(lib)
+add_subdirectory(Lib)
 
 set(RAKNET_COMMON_LIBS RakNetLibStatic)
 

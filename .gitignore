@@ -45,3 +45,5 @@ CMakeFiles/
 *.vcxproj.user
 *.sln
 .vscode/
+
+CMakeCache.txt
