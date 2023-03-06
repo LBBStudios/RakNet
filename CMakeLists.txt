@@ -31,7 +31,7 @@ ENDIF (WIN32 AND NOT UNIX)
 
 # Options
 option(RAKNET_ENABLE_SAMPLES "Generate RakNet sample projects." FALSE)
-option(RAKNET_ENABLE_DLL "Generate the DLL project." TRUE)
+option(RAKNET_ENABLE_DLL "Generate the DLL project." FALSE)
 option(RAKNET_ENABLE_STATIC "Generate the static library project." TRUE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CmakeIncludes)
