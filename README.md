@@ -14,6 +14,8 @@ Other platforms may work, but cannot be guaranteed.
 * Remove or refactor old sections of code in order to shrink the total size of the library.
 * Switch to git submodules as much as possible, rather than relying on a different folder. 
 * Replace libcat with a different library for security. 
+* Write unit tests
+* Add CI to this GitHub repo
 
 ## Noteworthy changes
 * Removed deprecated code
