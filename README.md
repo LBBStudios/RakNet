@@ -2,7 +2,7 @@
 
 Copyright (c) 2014, Oculus VR, Inc.
 
-Copyright (c) 2022, Gie 'Max' Vanommeslaeghe
+Copyright (c) 2022-2023, Gie 'Max' Vanommeslaeghe
 
 ## Important Note ⚠️
 This may be a fork of RakNet, but it doesn't make any promises on compatibility with the RakNet protocol, or other versions of the RakNet engine.
@@ -10,7 +10,10 @@ It is also important to remember that this is currently only being tested on Win
 Other platforms may work, but cannot be guaranteed. 
 
 ## Goals 
-* Implement OpenSSL 3.x to replace outdated encryption methods
+* Implement OpenSSL 3.x to replace OpenSSL 1.x being used in the TCPInterface class
+* Remove or refactor old sections of code in order to shrink the total size of the library.
+* Switch to git submodules as much as possible, rather than relying on a different folder. 
+* Replace libcat with a different library for security. 
 
 ## Noteworthy changes
 * Removed deprecated code
@@ -19,8 +22,7 @@ Other platforms may work, but cannot be guaranteed.
 * Modernized CMakeLists.txt files
 * Removed old samples and general console code. Most of it was empty, or generated warnings. (PS Vita, PS3, PS4, 360, Win8, WinPhone, GFx)
 
-Package notes
-------------------------------------------
+## Package notes
 * The Help directory contains index.html, which is full help documentation in HTML format
 * The Source directory contain all files required for the core of Raknet and is used if you want to use the source in your program or create your own dll
 * The Samples directory contains code samples and one game using an older version of Raknet.  The code samples each demonstrate one feature of Raknet.  The game samples cover several features.
@@ -29,21 +31,12 @@ Package notes
 ## CMake 
 CMake is a requirement for building this library; You can download it at https://cmake.org/download/
 
-Windows builds
------------------------------------------
+## Windows builds
 * Generate RakNet.sln using CMake
 * Open 
 * Build required .dll or .lib files
 
-CYGWIN builds
------------------------------------------
-Copy Include, Source, and whatever you want to run in the home directory.  Then type
-`g++ ../../lib/w32api/libws2_32.a *.cpp`
-You can run `a.exe`.
-You might have to copy `*.dll` from `cygwin\bin` as well.
-
-Linux builds
------------------------------------------
+# Linux builds
 To build on Linux, simply clone the repository, and excute the following commands:
 ```
 mkdir build
@@ -53,6 +46,8 @@ make
 ```
 Optionally, you can use make -j<processor count -1> to enable multi-threaded compilation. 
 This of course assumes that you have gcc, cmake and build-essentials installed. 
+
+### ⚠️ Build instructions underneath this are not tested, and may be incorrect. ⚠️
 
 Mac Users
 -----------------------------------------
