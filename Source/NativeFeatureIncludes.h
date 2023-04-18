@@ -51,7 +51,7 @@
 
 // SET DEFAULTS IF UNDEFINED
 #ifndef LIBCAT_SECURITY
-#define LIBCAT_SECURITY 1
+#define LIBCAT_SECURITY 0
 #endif
 #ifndef _RAKNET_SUPPORT_ConnectionGraph2
 #define _RAKNET_SUPPORT_ConnectionGraph2 1
